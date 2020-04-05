@@ -1,0 +1,92 @@
+# STEP 1 
+# Import your csv data - the master dataset should be the file where data from all months are combined
+
+import pandas as pd
+master_db = pd.read_csv(r"C:\Users\file_path\master_dataset.csv")
+
+# STEP 2
+# Extract the feature variables from the master data set and perform the calculations to arrive at the precalculation table. 
+# I won't repeat the code 3 times. They are identical for each feature variable. In this sample I'll be using wind speed.
+
+wind_list = master_db["Cloud Ceiling (ft)"].tolist()
+dual_result = master_db["Result_1"].tolist()
+solo_result = master_db["Result_2"].tolist()
+x_result = master_db["Result_3"].tolist()
+
+# Combining each wind speed with the specific flight type and outcome A of each day. 
+# For example, Jan 1st, 10 knots, Dual, "Yes."
+# Jan 2nd, 11 knots, Dual, "No."
+# ... Jan 17th, 12.5 knots, Solo, "No."
+
+wind_dual = [(i, j) for i, j in zip(wind_list, dual_result)]
+wind_solo = [(i, j) for i, j in zip(wind_list, solo_result)]
+wind_x = [(i, j) for i, j in zip(wind_list, x_result)]
+
+# Assigning each wind speed, flight type, and outcome set to a "weak", "medium," or "heavy" category
+# It's just the same code repeated 3 times. This one's for dual:
+
+wind_dual_weak = []
+wind_dual_medium =  []
+wind_dual_strong = []
+for i, j in wind_dual:
+    if i <= 10:
+        wind_dual_weak.append([i, j])
+    elif i > 10 and i <= 20:
+        wind_dual_medium.append([i, j])
+    else:
+        wind_dual_strong.append([i, j])
+
+# Now we count how many "Yes" and "No" outcomes there are for each category of weak, medium, and heavy:
+# This is repeated 3 times for EACH type of flight. This is the code for the dual hours. Each flight type once again, have identical code.
+
+wind_dual_weak_counter_yes = 0
+wind_dual_weak_counter_no = 0
+for i, j in wind_dual_weak:
+    if j == 'Yes':
+        wind_dual_weak_counter_yes = wind_dual_weak_counter_yes + 1
+    else:
+        wind_dual_weak_counter_no = wind_dual_weak_counter_no + 1
+
+wind_dual_medium_counter_yes = 0
+wind_dual_medium_counter_no = 0
+for i, j in wind_dual_medium:
+    if j == 'Yes':
+        wind_dual_medium_counter_yes = wind_dual_medium_counter_yes + 1
+    else:
+        wind_dual_medium_counter_no = wind_dual_medium_counter_no + 1
+
+wind_dual_heavy_counter_yes = 0
+wind_dual_heavy_counter_no = 0
+for i, j in wind_dual_strong:
+    if j == 'Yes':
+        wind_dual_heavy_counter_yes = wind_dual_heavy_counter_yes + 1
+    else:
+        wind_dual_heavy_counter_no = wind_dual_heavy_counter_no + 1
+
+# Summing up the total "Yes" and "No" outcomes respectively
+# Again, this was done 3 times for EACH flight type. This is the one for dual hours.
+
+total_yes_dual = wind_dual_weak_counter_yes + wind_dual_medium_counter_yes + wind_dual_heavy_counter_yes
+total_no_dual = wind_dual_weak_counter_no + wind_dual_medium_counter_no + wind_dual_heavy_counter_no
+
+# Next is calculating the probability percentage
+# Done 3 times for each flight type. This one's dual hours:
+
+prob_yes_weak_dual = (wind_dual_weak_counter_yes/total_yes_dual)
+prob_yes_medium_dual = (wind_dual_medium_counter_yes/total_yes_dual)
+prob_yes_strong_dual = (wind_dual_strong_counter_yes/total_yes_dual)
+prob_no_weak_dual = (wind_dual_weak_counter_no/total_no_dual)
+prob_no_medium_dual = (wind_dual_medium_counter_no/total_no_dual)
+prob_no_strong_dual = (wind_dual_strong_counter_no/total_no_dual)
+
+# Last is creating the dataframe
+
+wind_data_dual = {'Wind Speed':['Weak', 'Medium', 'Heavy', 'Total'],
+          'Yes': [wind_dual_weak_counter_yes, wind_dual_medium_counter_yes, wind_dual_strong_counter_yes, total_yes_dual],
+          'No': [wind_dual_weak_counter_no, wind_dual_medium_counter_no, wind_dual_strong_counter_no, total_no_dual],
+          'P(Yes)': [prob_yes_weak_dual prob_yes_medium_dual, prob_yes_strong_dual, "100%"],
+          'P(No)': [prob_no_weak_dual, prob_no_medium_dual, prob_no_strong_dual, "100%"]}
+wind_dataframe_dual = pd.DataFrame.from_dict(wind_data_dual)
+
+# STEP 3 Repeat this for each feature variable for each flight type; 
+# so 3 feature variables * 3 flight types = Run the code 9 times
