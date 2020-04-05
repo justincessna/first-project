@@ -97,4 +97,8 @@ jan_final_dataframe_solo = pd.DataFrame(jan_final_data_solo, columns = ['Day', '
 jan_final_data_xcountry = {'Day':day, 'Wind Speed (kts)':avg_wind_per_day_knots, 'Visibility (sm)':avg_vis_per_day_stat_mile, 'Cloud Ceiling (ft)':avg_cc_per_day, 'Type of Flight':xcountry}
 jan_final_dataframe_xcountry = pd.DataFrame(jan_final_data_xcountry, columns = ['Day', 'Wind Speed (kts)', 'Visibility (sm)', 'Cloud Ceiling (ft)', 'Type of Flight'])
 
-# STEP 3 I repeated this process 11 more times to get the dataframe for each month. Once you have the code in place its just about running it on 11 more csv files.
+# STEP 3 
+# I repeated this process 11 more times to get the dataframe for each month. Once you have the code in place its just about running it on 11 more csv files.
+
+# STEP 4
+# Combine all month's data into one single csv file named "master_dataset"
