@@ -60,7 +60,7 @@ for spread in spread:
 cloud_ceiling = []
 for gl in agl:
     cloud_ceiling.append(gl + 936)
-composite_list_cloudceil = [cloud_ceiling[x:x+11] for x in range(0, len(cloud_ceiling),11)]
+composite_list_cloudceil = [cloud_ceiling[x:x+9] for x in range(0, len(cloud_ceiling),9)]
 
 counter = 0
 avg_cc_per_day = []
