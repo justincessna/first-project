@@ -90,3 +90,7 @@ wind_dataframe_dual = pd.DataFrame.from_dict(wind_data_dual)
 
 # STEP 3 Repeat this for each feature variable for each flight type; 
 # so 3 feature variables * 3 flight types = Run the code 9 times
+
+# STEP 4
+# Combine all into one master file for each feature variable.
+# For example, dual, solo, and cross country wind speed data frames into wind_speed_final
