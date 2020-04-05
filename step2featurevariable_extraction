@@ -1,0 +1,7 @@
+# STEP 1 is to import pandas and your file
+
+import pandas as pd
+jan_raw = pd.read_csv(r"C:\Users\file_path\january_raw_data.csv")
+
+# .head allows you to check that you've uploaded the correct file to work on
+jan_raw.head(5)
