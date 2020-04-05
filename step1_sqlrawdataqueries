@@ -1,0 +1,26 @@
+# STEP 1 is to create the table from my raw csv data.
+# I used a CSV to SQL converter for the body of the code because I wasn't realistically going to type out 250 lines of "INSERT INTO" lines
+
+CREATE TABLE january_raw_data
+(  
+   Day                 INTEGER  NOT NULL
+  ,Time                VARCHAR(5) NOT NULL
+  ,Temp_°C             NUMERIC(5,1) NOT NULL
+  ,Dew_Point_Temp_°C   NUMERIC(5,1) NOT NULL
+  ,Wind_Spd_kmh        INTEGER  NOT NULL
+  ,Visibility_km       NUMERIC(4,1) NOT NULL
+);
+INSERT INTO mytable(Day,Temp_°C,Dew_Point_Temp_°C,Wind_Spd_kmh,Visibility_km) VALUES (1,4.3,4,11,4.8);
+INSERT INTO mytable(Day,Temp_°C,Dew_Point_Temp_°C,Wind_Spd_kmh,Visibility_km) VALUES (1,5.1,5,4,16.1);
+INSERT INTO mytable(Day,Temp_°C,Dew_Point_Temp_°C,Wind_Spd_kmh,Visibility_km) VALUES (1,5.9,5.6,28,4);
+INSERT INTO mytable(Day,Temp_°C,Dew_Point_Temp_°C,Wind_Spd_kmh,Visibility_km) VALUES (1,3.3,2.6,34,16.1);
+INSERT INTO mytable(Day,Temp_°C,Dew_Point_Temp_°C,Wind_Spd_kmh,Visibility_km) VALUES (1,2.8,1.2,28,16.1);
+
+# STEP 2 is cleaning the data
+# I extracted the lines that were relevant to the analysis.
+# Relevant lines meaning hours of daylight. Students are only permitted to fly during hours of daylight. Hours of daylight varies by month.
+
+SELECT * FROM january_raw_data
+WHERE Time >= "8:00" OR Time <= "16:00";
+
+#8:00 to 16:00 because those are January's hours of daylight
