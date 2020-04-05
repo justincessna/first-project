@@ -1,0 +1,32 @@
+# STEP 1
+# Import your files
+
+import pandas as pd
+visibility_final = pd.read_csv(r"file_path\visibility_final.csv")
+wind_speed_final = pd.read_csv(r"file_path\wind_speed_final.csv")
+cloud_ceiling_final = pd.read_csv(r"file_path\cloud_ceiling_final.csv")
+
+# STEP 2 
+# Get the probability percentage data from each dataframe
+# I'm only going to demonstrate this for wind_speed
+
+wdual = wind_speed_final.loc[3][2:4].tolist()
+wsolo = wind_speed_final.loc[7][2:4].tolist()
+wxcountry = wind_speed_final.loc[11][2:4].tolist()
+
+# STEP 3
+# Administrative code for labelling of data
+
+type_of_flight = ['Dual', 'Dual', 'Solo', 'Solo', 'X-Country', 'X-Country']
+outcomes = ["Yes","No","Yes","No","Yes","No"]
+outcomes_numbers = wdual + wsolo + wxcountry
+probability = [wdual[0]/357, wdual[1]/357, wsolo[0]/357, wsolo[1]/357, wxcountry[0]/357, wxcountry[1]/357]
+
+# STEP 4
+# Create the dataframe
+
+p_precalc = pd.DataFrame(type_of_flight, columns = ["Type of Flight"])
+
+p_precalc[""] = outcomes
+p_precalc["Counter"] = outcomes_numbers
+p_precalc["P(Yes/No)"] = p
